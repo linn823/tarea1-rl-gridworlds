@@ -9,7 +9,7 @@ env.verbose = True
 _ =env.reset()
 
 EPISODES = 10000 
-MAX_STEPS = 150
+MAX_STEPS = 100
 
 LEARNING_RATE = 0.01
 GAMMA = 1
@@ -155,6 +155,9 @@ def lambdaQlearning(env, epsilon):
         rewards_epi = 0
         state = env.reset()  # Reinicia el ambiente
 
+        if episode % 1000 == 0:
+            print(episode)
+        
         ## primera accion
         if np.random.uniform(0, 1) < epsilon:
             action = env.action_space.sample()
@@ -277,6 +280,9 @@ def lambdaSarsa(env, epsilon):
     for episode in range(EPISODES):
         rewards_epi = 0
         state = env.reset()  # Reinicia el ambiente
+        
+        if episode % 1000 == 0:
+            print(episode)
 
         ## primera accion
         if np.random.uniform(0, 1) < epsilon:
@@ -358,9 +364,9 @@ def playgames(env, Q, num_games, render = True):
     env.close()
     print("Victorias: ", wins)
 
-#Q = qlearning(env, epsilon)
+Q = qlearning(env, epsilon)
 #Q = dQlearning(env, epsilon)
-Q = lambdaQlearning(env, epsilon)
+#Q = lambdaQlearning(env, epsilon)
 #Q = sarsa(env, epsilon)
 #Q = lambdaSarsa(env, epsilon)
 
@@ -371,7 +377,7 @@ plt.ylabel("Reward")
 plt.title("Curva de aprendizaje: Reward vs episodio")
 plt.legend()
 plt.grid(True)
-plt.savefig("4_map2_lambdaQlearning.png")  # Save the plot as a PNG image
+plt.savefig("2_map2_sarsa.png")  # Save the plot as a PNG image
 
 playgames(env, Q, 100, True)
 env.close()
